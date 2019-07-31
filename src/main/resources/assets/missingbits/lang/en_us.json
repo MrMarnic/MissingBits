@@ -1,0 +1,15 @@
+{
+  "text.missingbits.mc_version_changed": "When the minecraft version of the world is not the same.",
+  "text.missingbits.mods_removed": "When a mod is missing that is in the world.",
+  "text.missingbits.mods_updated": "When a version of a mod changes.",
+  "text.missingbits.regs_missing": "The place where all the game stuff is registered.",
+  "text.missingbits.content_missing": "When anything that belongs to the game is missing.",
+  "text.missingbits.gui_name": "Missing Bits Report",
+  "text.missingbits.go_back": "Go back",
+  "text.missingbits.con_loading": "Continue Loading",
+  "text.missingbits.create_backup": "Create Backup",
+  "text.missingbits.save_log": "Save log",
+  "text.missingbits.saved_log": "Saved log",
+  "text.missingbits.welcome_to_missingbits": "Welcome to MissingBits",
+  "text.missingbits.saving": "Creating MissingBits file now"
+}

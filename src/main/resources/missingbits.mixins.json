@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "me.marnic.missingbits.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinServerCreate",
+    "MixinLevelItem"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
