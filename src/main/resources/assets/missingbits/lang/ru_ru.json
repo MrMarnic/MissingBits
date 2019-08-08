@@ -1,0 +1,15 @@
+{
+  "text.missingbits.mc_version_changed": "Когда версии Minecraft и мира не совпадают.",
+  "text.missingbits.mods_removed": "Когда моды для этого мира отсутствуют.",
+  "text.missingbits.mods_updated": "Когда версия модов меняется.",
+  "text.missingbits.regs_missing": "Место, где зарегистрирован весь игровой материал.",
+  "text.missingbits.content_missing": "Когда все, что принадлежит игре, отсутствует.",
+  "text.missingbits.gui_name": "Отчет о Недостающих Элементах",
+  "text.missingbits.go_back": "Назад",
+  "text.missingbits.con_loading": "Продолжить Загрузку",
+  "text.missingbits.create_backup": "Создать Резервную Копию",
+  "text.missingbits.save_log": "Сохранить лог",
+  "text.missingbits.saved_log": "Лог сохранен",
+  "text.missingbits.welcome_to_missingbits": "Добро Пожаловать в MissingBits",
+  "text.missingbits.saving": "Создание файла MissingBits"
+}
