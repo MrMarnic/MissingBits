@@ -1,5 +1,6 @@
 package me.marnic.missingbits.main;
 
+import me.marnic.missingbits.config.MissingBitsConfig;
 import me.marnic.missingbits.loading.MissingBitsGameLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
@@ -22,6 +23,11 @@ public class MissingBits implements ClientModInitializer {
         if (!CONFIG_FILE.exists()) {
             CONFIG_FILE.mkdir();
         }
+
+        CONFIG_FILE = new File(CONFIG_FILE.getAbsolutePath()+"//missing_bits.json");
+
+
+        MissingBitsConfig.init();
 
         MissingBitsGameLoader.init();
     }

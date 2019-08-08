@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "missingbits",
-  "version": "v1.14.4 Fabric b1",
+  "version": "v1.14.4 Fabric b2",
   "name": "Missing Bits",
   "description": "Shows if something is missing or if a mod was updated or removed",
   "authors": [
@@ -9,9 +9,9 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/missingbits",
-    "sources": "https://github.com/MrMarnic/ExtraBows"
+    "sources": "https://github.com/MrMarnic/MissingBits"
   },
-  "license": "All Rights Reserved",
+  "license": "MIT",
   "icon": "assets/missingbits/icon.png",
   "environment": "*",
   "entrypoints": {

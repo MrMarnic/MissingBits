@@ -1,11 +1,15 @@
 package me.marnic.missingbits.loading;
 
+import me.marnic.missingbits.api.util.LogUtil;
+import me.marnic.missingbits.api.util.TextUtil;
 import me.marnic.missingbits.client.gui.MissingBitsWarningGUI;
 import me.marnic.missingbits.client.lang.MissingBitsLang;
+import me.marnic.missingbits.config.MissingBitsConfig;
 import net.fabricmc.loader.ModContainer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
@@ -77,6 +81,10 @@ public class MissingBitsGameLoader {
                 }
             }
         }
+
+        if(MissingBitsConfig.DATA.alwaysDoBackup) {
+            EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), levelSummary.getName());
+        }
     }
 
     private static void showFirstLoadToast() {
@@ -107,6 +115,10 @@ public class MissingBitsGameLoader {
             NbtIo.writeCompressed(info.registriesAsTag(), new FileOutputStream(regFile));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(MissingBitsConfig.DATA.alwaysDoBackup) {
+            EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), gameFile.getName());
         }
     }
 
