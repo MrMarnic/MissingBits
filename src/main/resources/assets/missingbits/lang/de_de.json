@@ -11,5 +11,6 @@
   "text.missingbits.save_log": "Log speichern",
   "text.missingbits.saved_log": "Log gespeichert",
   "text.missingbits.welcome_to_missingbits": "Willkommen zu MissingBits",
-  "text.missingbits.saving": "MissingBits Datei wird erstellt"
+  "text.missingbits.saving": "MissingBits Datei wird erstellt",
+  "text.missingbits.server_error": "Fehler beim Verbinden zu %s"
 }

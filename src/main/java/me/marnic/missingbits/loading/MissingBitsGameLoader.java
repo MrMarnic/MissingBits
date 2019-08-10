@@ -1,7 +1,5 @@
 package me.marnic.missingbits.loading;
 
-import me.marnic.missingbits.api.util.LogUtil;
-import me.marnic.missingbits.api.util.TextUtil;
 import me.marnic.missingbits.client.gui.MissingBitsWarningGUI;
 import me.marnic.missingbits.client.lang.MissingBitsLang;
 import me.marnic.missingbits.config.MissingBitsConfig;
@@ -15,10 +13,8 @@ import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -64,8 +60,8 @@ public class MissingBitsGameLoader {
                 callbackInfo.cancel();
                 Screen parent = MinecraftClient.getInstance().currentScreen;
                 MinecraftClient.getInstance().openScreen(new MissingBitsWarningGUI(comparingInfo, parent, levelItem, gameFile));
-            }else {
-                if(!info.isShouldBeUsed()) {
+            } else {
+                if (!info.isShouldBeUsed()) {
                     showFirstLoadToast();
                     LoadingInfo info1 = new LoadingInfo();
                     info1.setMcVersion(levelSummary.getVersion().asFormattedString());
@@ -73,7 +69,7 @@ public class MissingBitsGameLoader {
                     info2.setMcVersion(MinecraftClient.getInstance().getGame().getVersion().getName());
                     LoadingInfo.ComparingInfo info3 = info1.compare(info2);
 
-                    if(!info3.isMcVersionsEqual()) {
+                    if (!info3.isMcVersionsEqual()) {
                         callbackInfo.cancel();
                         Screen parent = MinecraftClient.getInstance().currentScreen;
                         MinecraftClient.getInstance().openScreen(new MissingBitsWarningGUI(comparingInfo, parent, levelItem, gameFile));
@@ -82,7 +78,7 @@ public class MissingBitsGameLoader {
             }
         }
 
-        if(MissingBitsConfig.DATA.alwaysDoBackup) {
+        if (MissingBitsConfig.DATA.alwaysDoBackup) {
             EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), levelSummary.getName());
         }
     }
@@ -117,7 +113,7 @@ public class MissingBitsGameLoader {
             e.printStackTrace();
         }
 
-        if(MissingBitsConfig.DATA.alwaysDoBackup) {
+        if (MissingBitsConfig.DATA.alwaysDoBackup) {
             EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), gameFile.getName());
         }
     }
@@ -126,7 +122,7 @@ public class MissingBitsGameLoader {
         HashMap<String, LoadingInfo.ModInfo> mods = new HashMap<>();
 
         FabricLoader.getInstance().getAllMods().forEach((mod) -> {
-            mods.put(mod.getMetadata().getId(), new LoadingInfo.ModInfo(mod.getMetadata().getId(),mod.getMetadata().getVersion().getFriendlyString(),mod.getMetadata().getName()));
+            mods.put(mod.getMetadata().getId(), new LoadingInfo.ModInfo(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString(), mod.getMetadata().getName()));
         });
 
         HashMap<String, ArrayList<String>> regs = new HashMap<>();

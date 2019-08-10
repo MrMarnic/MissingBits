@@ -1,22 +1,28 @@
 package me.marnic.missingbits.loading;
 
+import io.netty.buffer.Unpooled;
+import me.marnic.missingbits.api.util.IPacketSerializable;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * Copyright (c) 26.07.2019
  * Developed by MrMarnic
  * GitHub: https://github.com/MrMarnic
  */
-public class LoadingInfo {
+public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
     private HashMap<String, ModInfo> mods;
     private HashMap<String, ArrayList<String>> registries;
     private String mcVersion;
@@ -50,7 +56,7 @@ public class LoadingInfo {
 
         tag.getKeys().forEach((key) -> {
             CompoundTag modTag = tag.getCompound(key);
-            modsList.put(key,new ModInfo(key,modTag.getString("version"),modTag.getString("name")));
+            modsList.put(key, new ModInfo(key, modTag.getString("version"), modTag.getString("name")));
         });
 
         return modsList;
@@ -83,9 +89,9 @@ public class LoadingInfo {
 
         mods.forEach((k, v) -> {
             CompoundTag mod = new CompoundTag();
-            mod.putString("version",v.getVersion());
-            mod.putString("name",v.getModName());
-            tag.put(k,mod);
+            mod.putString("version", v.getVersion());
+            mod.putString("name", v.getModName());
+            tag.put(k, mod);
         });
 
         return tag;
@@ -191,16 +197,58 @@ public class LoadingInfo {
         return shouldBeUsed;
     }
 
+    @Override
+    public LoadingInfo readFrom(PacketByteBuf packetByteBuf) {
+        this.mcVersion = readString(packetByteBuf);
+        HashMap<String, ModInfo> map = new HashMap<>();
 
-    public static class ModInfo {
+        this.readSerializables(packetByteBuf, ModInfo.class).forEach((mod) -> {
+            map.put(mod.getModId(), mod);
+        });
+
+
+        this.mods = map;
+        return this;
+    }
+
+    @Override
+    public PacketByteBuf write() {
+        PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+        writeString(byteBuf, mcVersion);
+        writeSerializables(mods.values(), byteBuf);
+        return byteBuf;
+    }
+
+    public static class ModInfo implements IPacketSerializable<ModInfo> {
         private String modId;
         private String version;
         private String modName;
+
+        public ModInfo() {
+        }
 
         public ModInfo(String modId, String version, String modName) {
             this.modId = modId;
             this.version = version;
             this.modName = modName;
+        }
+
+        @Override
+        public ModInfo readFrom(PacketByteBuf packetByteBuf) {
+            this.modId = readString(packetByteBuf);
+            this.version = readString(packetByteBuf);
+            this.modName = readString(packetByteBuf);
+            return this;
+        }
+
+        @Override
+        public PacketByteBuf write() {
+            PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+            writeString(byteBuf, modId);
+            writeString(byteBuf, version);
+            writeString(byteBuf, modName);
+
+            return byteBuf;
         }
 
         public String getModId() {
@@ -216,7 +264,7 @@ public class LoadingInfo {
         }
     }
 
-    public static class ComparingInfo {
+    public static class ComparingInfo implements IPacketSerializable<ComparingInfo> {
         private ArrayList<ModInfo> missingMods;
         private ArrayList<Pair<ModInfo, ModInfo>> updated;
         private HashMap<String, ArrayList<String>> missingRegs;
@@ -261,6 +309,47 @@ public class LoadingInfo {
 
             Collections.sort(missingMods, Comparator.comparing(ModInfo::getModName));
             Collections.sort(updated, Comparator.comparing(o -> o.getRight().getModName()));
+        }
+
+        @Override
+        public ComparingInfo readFrom(PacketByteBuf packetByteBuf) {
+            this.missingMods = new ArrayList<>(this.readSerializables(packetByteBuf, ModInfo.class));
+            int size = packetByteBuf.readVarInt();
+
+            for (int i = 0; i < size; i++) {
+                ModInfo infoLeft = new ModInfo().readFrom(packetByteBuf);
+                ModInfo infoRight = new ModInfo().readFrom(packetByteBuf);
+
+                this.updated.add(new Pair<>(infoLeft, infoRight));
+            }
+
+            this.originalMc = readString(packetByteBuf);
+            this.newMc = readString(packetByteBuf);
+
+            setData(missingMods, missingRegs, (originalMc.equalsIgnoreCase(newMc)), updated, originalMc, newMc);
+
+            return this;
+        }
+
+        @Override
+        public PacketByteBuf write() {
+            PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+
+            writeSerializables(missingMods, byteBuf);
+
+            int size = updated.size();
+
+            byteBuf.writeVarInt(size);
+
+            updated.forEach(pair -> {
+                byteBuf.writeBytes(pair.getLeft().write());
+                byteBuf.writeBytes(pair.getRight().write());
+            });
+
+            writeString(byteBuf, originalMc);
+            writeString(byteBuf, newMc);
+
+            return byteBuf;
         }
 
         public ArrayList<ModInfo> getMissingMods() {

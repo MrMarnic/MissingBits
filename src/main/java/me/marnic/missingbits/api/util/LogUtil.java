@@ -53,7 +53,7 @@ public class LogUtil {
                 write("Removed mods: " + info.getMissingMods().size(), writer);
                 info.getMissingMods().forEach((v) -> {
                     try {
-                        write("- " + v.getModName() + " " + v.getVersion() + "("+v.getModId()+")", writer);
+                        write("- " + v.getModName() + " " + v.getVersion() + "(" + v.getModId() + ")", writer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -68,7 +68,7 @@ public class LogUtil {
                 write("Updated mods: " + info.getUpdated().size(), writer);
                 info.getUpdated().forEach((v) -> {
                     try {
-                        write("- " + v.getRight().getModName() + " (" + v.getLeft().getVersion() + " -> " + v.getRight().getVersion() + ") ("+v.getRight().getModId()+")", writer);
+                        write("- " + v.getRight().getModName() + " (" + v.getLeft().getVersion() + " -> " + v.getRight().getVersion() + ") (" + v.getRight().getModId() + ")", writer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

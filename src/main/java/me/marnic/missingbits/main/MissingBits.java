@@ -1,34 +1,30 @@
 package me.marnic.missingbits.main;
 
-import me.marnic.missingbits.config.MissingBitsConfig;
-import me.marnic.missingbits.loading.MissingBitsGameLoader;
-import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.MinecraftClient;
-
-import java.io.File;
-
-/**
- * Copyright (c) 26.07.2019
+/*
+ * Copyright (c) 09.08.2019
  * Developed by MrMarnic
  * GitHub: https://github.com/MrMarnic
  */
-public class MissingBits implements ClientModInitializer {
 
-    public static File CONFIG_FILE;
+import me.marnic.missingbits.api.util.ModsUtil;
+import me.marnic.missingbits.common.packet.MissingBitsPacketHandler;
+import me.marnic.missingbits.loading.LoadingInfo;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
+
+public class MissingBits implements ModInitializer {
+    public static LoadingInfo ALL_MODS;
 
     @Override
-    public void onInitializeClient() {
-        CONFIG_FILE = new File(MinecraftClient.getInstance().runDirectory + "//config");
+    public void onInitialize() {
+        MissingBits.ALL_MODS = ModsUtil.getAllModsAsList();
 
-        if (!CONFIG_FILE.exists()) {
-            CONFIG_FILE.mkdir();
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            MissingBits.ALL_MODS.setMcVersion(MinecraftClient.getInstance().getVersionType());
         }
 
-        CONFIG_FILE = new File(CONFIG_FILE.getAbsolutePath()+"//missing_bits.json");
-
-
-        MissingBitsConfig.init();
-
-        MissingBitsGameLoader.init();
+        MissingBitsPacketHandler.init();
     }
 }

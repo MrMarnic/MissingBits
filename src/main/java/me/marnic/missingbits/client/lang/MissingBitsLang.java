@@ -25,11 +25,17 @@ public class MissingBitsLang {
     public static String WELCOME_TO_MISSING_BITS = "text.missingbits.welcome_to_missingbits";
     public static String MISSINGBITS_SAVING = "text.missingbits.saving";
 
+    public static String SERVER_ERROR = "text.missingbits.server_error";
+
     public static String textForKey(String key) {
         return new TranslatableText(key).asFormattedString();
     }
 
     public static TranslatableText forKey(String key) {
         return new TranslatableText(key);
+    }
+
+    public static TranslatableText forKey(String key, Object... array) {
+        return new TranslatableText(key, array);
     }
 }

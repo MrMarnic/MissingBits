@@ -3,10 +3,13 @@
   "package": "me.marnic.missingbits.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinServerCreate",
-    "MixinLevelItem"
+    "MixinPlayerJoin",
+    "MixinDedicatedServerStarting"
   ],
   "client": [
+    "MixinServerCreate",
+    "MixinLevelItem",
+    "MixinDisconnectedScreen"
   ],
   "injectors": {
     "defaultRequire": 1

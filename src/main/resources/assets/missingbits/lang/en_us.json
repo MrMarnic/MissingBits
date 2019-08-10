@@ -11,5 +11,6 @@
   "text.missingbits.save_log": "Save log",
   "text.missingbits.saved_log": "Saved log",
   "text.missingbits.welcome_to_missingbits": "Welcome to MissingBits",
-  "text.missingbits.saving": "Creating MissingBits file now"
+  "text.missingbits.saving": "Creating MissingBits file now",
+  "text.missingbits.server_error": "Error occurred connecting to %s"
 }

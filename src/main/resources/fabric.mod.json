@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "missingbits",
-  "version": "v1.14.4 Fabric b2",
+  "version": "v1.14.4 Fabric b3d",
   "name": "Missing Bits",
   "description": "Shows if something is missing or if a mod was updated or removed",
   "authors": [
@@ -15,8 +15,11 @@
   "icon": "assets/missingbits/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
+    "main": [
       "me.marnic.missingbits.main.MissingBits"
+    ],
+    "client": [
+      "me.marnic.missingbits.main.MissingBitsClient"
     ]
   },
   "mixins": [

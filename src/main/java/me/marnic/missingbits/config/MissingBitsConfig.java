@@ -6,7 +6,7 @@ package me.marnic.missingbits.config;/*
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.marnic.missingbits.main.MissingBits;
+import me.marnic.missingbits.main.MissingBitsClient;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -21,19 +21,19 @@ public class MissingBitsConfig {
     public static void init() {
         DATA = new MissingBitsData();
         GSON = new GsonBuilder().setPrettyPrinting().create();
-        if(MissingBits.CONFIG_FILE.exists()) {
+        if (MissingBitsClient.CONFIG_FILE.exists()) {
             try {
-                DATA = GSON.fromJson(new FileReader(MissingBits.CONFIG_FILE),MissingBitsData.class);
+                DATA = GSON.fromJson(new FileReader(MissingBitsClient.CONFIG_FILE), MissingBitsData.class);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             try {
                 String json = GSON.toJson(DATA);
-                BufferedWriter writer = new BufferedWriter(new FileWriter(MissingBits.CONFIG_FILE));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(MissingBitsClient.CONFIG_FILE));
                 writer.write(json);
                 writer.close();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

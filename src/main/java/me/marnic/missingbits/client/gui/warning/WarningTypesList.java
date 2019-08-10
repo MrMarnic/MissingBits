@@ -5,7 +5,6 @@ import me.marnic.missingbits.client.gui.components.BasicWidgetList;
 import me.marnic.missingbits.client.gui.widgets.WidgetStringEntry;
 import me.marnic.missingbits.client.lang.MissingBitsLang;
 import me.marnic.missingbits.loading.LoadingInfo;
-import me.marnic.missingbits.loading.MissingBitsGameLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.Formatting;
@@ -43,7 +42,7 @@ public class WarningTypesList extends BasicWidgetList {
             infoList.addString("Updated Mods: " + comparingInfo.getUpdated().size(), 0).setColor(Formatting.YELLOW.getColorValue());
             comparingInfo.getUpdated().forEach((k) -> {
                 infoList.addString("- " + k.getRight().getModName(), 0);
-                infoList.addString("("+ k.getRight().getModId() + ")",0);
+                infoList.addString("(" + k.getRight().getModId() + ")", 0);
                 infoList.addString("Old: (" + k.getLeft().getVersion() + ")", 0);
                 infoList.addString("New: (" + k.getRight().getVersion() + ")", 0);
             });
@@ -58,7 +57,7 @@ public class WarningTypesList extends BasicWidgetList {
             infoList.addString("Removed Mods: " + comparingInfo.getMissingMods().size(), 0).setColor(Formatting.YELLOW.getColorValue());
             comparingInfo.getMissingMods().forEach((k) -> {
                 infoList.addString("- " + k.getModName() + " " + k.getVersion(), 0);
-                infoList.addString("("+k.getModId()+")",0);
+                infoList.addString("(" + k.getModId() + ")", 0);
             });
         });
 
