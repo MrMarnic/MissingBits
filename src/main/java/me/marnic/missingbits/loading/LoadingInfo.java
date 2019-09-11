@@ -56,7 +56,7 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
 
         tag.getKeys().forEach((key) -> {
             CompoundTag modTag = tag.getCompound(key);
-            modsList.put(key, new ModInfo(key, modTag.getString("version"), modTag.getString("name")));
+            modsList.put(key, new ModInfo(key, modTag.getString("version"), modTag.getString("name"),""));
         });
 
         return modsList;
@@ -168,7 +168,10 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
                     updated.add(new Pair<>(version, modInfo));
                 }
             } else {
-                missing.add(version);
+                System.out.println(version.enviroment);
+                if(!version.enviroment.equals("server")) {
+                    missing.add(version);
+                }
             }
         });
 
@@ -223,14 +226,16 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
         private String modId;
         private String version;
         private String modName;
+        private String enviroment;
 
         public ModInfo() {
         }
 
-        public ModInfo(String modId, String version, String modName) {
+        public ModInfo(String modId, String version, String modName,String enviroment) {
             this.modId = modId;
             this.version = version;
             this.modName = modName;
+            this.enviroment = enviroment;
         }
 
         @Override
@@ -261,6 +266,10 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
 
         public String getVersion() {
             return version;
+        }
+
+        public String getEnviroment() {
+            return enviroment;
         }
     }
 
@@ -342,8 +351,8 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
             byteBuf.writeVarInt(size);
 
             updated.forEach(pair -> {
-                byteBuf.writeBytes(pair.getLeft().write());
                 byteBuf.writeBytes(pair.getRight().write());
+                byteBuf.writeBytes(pair.getLeft().write());
             });
 
             writeString(byteBuf, originalMc);

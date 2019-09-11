@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "missingbits",
-  "version": "v1.14.4 Fabric b3",
+  "version": "v1.14.4 Fabric b4",
   "name": "Missing Bits",
   "description": "Shows if something is missing or if a mod was updated or removed",
   "authors": [

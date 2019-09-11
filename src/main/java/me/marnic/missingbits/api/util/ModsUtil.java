@@ -7,8 +7,10 @@ package me.marnic.missingbits.api.util;
  */
 
 import me.marnic.missingbits.loading.LoadingInfo;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.metadata.LoaderModMetadata;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +37,10 @@ public class ModsUtil {
         ArrayList<LoadingInfo.ModInfo> modsList = new ArrayList<>();
 
         for (ModContainer mod : mods) {
-            modsList.add(new LoadingInfo.ModInfo(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString(), mod.getMetadata().getName()));
+            LoaderModMetadata modMet = (LoaderModMetadata)mod.getMetadata();
+            if(modMet.loadsInEnvironment(EnvType.CLIENT) && !modMet.getAuthors().isEmpty()) {
+                modsList.add(new LoadingInfo.ModInfo(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString(), mod.getMetadata().getName(),mod.getMetadata().getType()));
+            }
         }
 
         HashMap<String, LoadingInfo.ModInfo> modsHashMap = new HashMap<>();
@@ -62,7 +67,7 @@ public class ModsUtil {
 
         for (String mod : allMods) {
             String[] data = mod.split("#");
-            modsList.add(new LoadingInfo.ModInfo(data[0], data[1], data[2]));
+            modsList.add(new LoadingInfo.ModInfo(data[0], data[1], data[2],""));
         }
 
         HashMap<String, LoadingInfo.ModInfo> modsHashMap = new HashMap<>();

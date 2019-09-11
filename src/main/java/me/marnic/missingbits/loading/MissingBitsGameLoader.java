@@ -122,7 +122,7 @@ public class MissingBitsGameLoader {
         HashMap<String, LoadingInfo.ModInfo> mods = new HashMap<>();
 
         FabricLoader.getInstance().getAllMods().forEach((mod) -> {
-            mods.put(mod.getMetadata().getId(), new LoadingInfo.ModInfo(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString(), mod.getMetadata().getName()));
+            mods.put(mod.getMetadata().getId(), new LoadingInfo.ModInfo(mod.getMetadata().getId(), mod.getMetadata().getVersion().getFriendlyString(), mod.getMetadata().getName(),mod.getMetadata().getType()));
         });
 
         HashMap<String, ArrayList<String>> regs = new HashMap<>();
