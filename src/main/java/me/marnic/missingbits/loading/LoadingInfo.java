@@ -106,7 +106,7 @@ public class LoadingInfo implements IPacketSerializable<LoadingInfo> {
             ListTag data = new ListTag();
             list.forEach((n) -> {
 
-                data.add(new StringTag(n));
+                data.add(StringTag.of(n));
             });
             tag.put(name, data);
         });

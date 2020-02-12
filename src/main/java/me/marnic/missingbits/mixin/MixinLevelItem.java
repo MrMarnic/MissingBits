@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Developed by MrMarnic
  * GitHub: https://github.com/MrMarnic
  */
-@Mixin(WorldListWidget.LevelItem.class)
-public abstract class MixinLevelItem extends AlwaysSelectedEntryListWidget.Entry<WorldListWidget.LevelItem> implements AutoCloseable {
+@Mixin(WorldListWidget.Entry.class)
+public abstract class MixinLevelItem extends AlwaysSelectedEntryListWidget.Entry<WorldListWidget.Entry> implements AutoCloseable {
 
     @Shadow
     public LevelSummary level;
@@ -26,7 +26,7 @@ public abstract class MixinLevelItem extends AlwaysSelectedEntryListWidget.Entry
         MissingBitsGameLoader.handleWorldLoad(level, info, getThis());
     }
 
-    public WorldListWidget.LevelItem getThis() {
-        return (WorldListWidget.LevelItem) ((Object) this);
+    public WorldListWidget.Entry getThis() {
+        return (WorldListWidget.Entry) ((Object) this);
     }
 }

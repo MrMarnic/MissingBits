@@ -27,7 +27,7 @@ public class MissingBitsWarningGUI extends Screen {
 
     private LoadingInfo.ComparingInfo comparingInfo;
     private Screen parentScreen;
-    private WorldListWidget.LevelItem levelItem;
+    private WorldListWidget.Entry levelItem;
     private File worldFile;
 
     private WarningTypesList warningTypesList;
@@ -37,7 +37,7 @@ public class MissingBitsWarningGUI extends Screen {
 
     private String warningReason;
 
-    public MissingBitsWarningGUI(LoadingInfo.ComparingInfo info, Screen parentScreen, WorldListWidget.LevelItem levelItem, File worldFile) {
+    public MissingBitsWarningGUI(LoadingInfo.ComparingInfo info, Screen parentScreen, WorldListWidget.Entry levelItem, File worldFile) {
         super(MissingBitsLang.forKey(MissingBitsLang.GUI_NAME));
         this.comparingInfo = info;
         this.parentScreen = parentScreen;
@@ -124,7 +124,7 @@ public class MissingBitsWarningGUI extends Screen {
     public static Method METHOD;
 
     static {
-        for (Method m : WorldListWidget.LevelItem.class.getDeclaredMethods()) {
+        for (Method m : WorldListWidget.Entry.class.getDeclaredMethods()) {
             if (m.getReturnType().equals(void.class) && m.getParameterCount() == 0 && Modifier.isPrivate(m.getModifiers()) && !m.isSynthetic()) {
                 METHOD = m;
                 break;

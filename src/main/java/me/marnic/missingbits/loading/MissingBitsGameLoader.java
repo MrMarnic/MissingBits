@@ -38,7 +38,7 @@ public class MissingBitsGameLoader {
         MODS = new ArrayList(FabricLoader.getInstance().getAllMods());
     }
 
-    public static void handleWorldLoad(LevelSummary levelSummary, CallbackInfo callbackInfo, WorldListWidget.LevelItem levelItem) {
+    public static void handleWorldLoad(LevelSummary levelSummary, CallbackInfo callbackInfo, WorldListWidget.Entry levelItem) {
         File gameFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath() + "//saves//" + levelSummary.getName());
 
         File logFolder = new File(gameFile.getAbsolutePath() + "//missing_bits_logs");
