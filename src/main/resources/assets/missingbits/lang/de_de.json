@@ -1,0 +1,16 @@
+{
+  "text.missingbits.mc_version_changed": "Wenn die Minecraft Version der Welt nicht gleich ist.",
+  "text.missingbits.mods_removed": "Wenn ein Mod in der Welt fehlt.",
+  "text.missingbits.mods_updated": "Wenn sich eine Mod Version geändert hat.",
+  "text.missingbits.regs_missing": "Der Ort an dem alle Sachen registriert werden.",
+  "text.missingbits.content_missing": "Wenn irgendetwas das zum Spiel gehört fehlt",
+  "text.missingbits.gui_name": "Missing Bits Report",
+  "text.missingbits.go_back": "Gehe zurück",
+  "text.missingbits.con_loading": "Fortfahren",
+  "text.missingbits.create_backup": "Backup erstellen",
+  "text.missingbits.save_log": "Log speichern",
+  "text.missingbits.saved_log": "Log gespeichert",
+  "text.missingbits.welcome_to_missingbits": "Willkommen zu MissingBits",
+  "text.missingbits.saving": "MissingBits Datei wird erstellt",
+  "text.missingbits.server_error": "Fehler beim Verbinden zu %s"
+}

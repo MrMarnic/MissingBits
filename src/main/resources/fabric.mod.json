@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "missingbits",
+  "version": "${version}",
+
+  "name": "Missing Bits",
+  "description": "Shows if something is missing or if a mod was updated or removed",
+  "authors": [
+    "MrMarnic"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/missingbits",
+    "sources": "https://github.com/MrMarnic/MissingBits"
+  },
+
+  "license": "MIT",
+  "icon": "assets/missingbits/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.marnic.missingbits.main.MissingBits"
+    ],
+    "client": [
+      "me.marnic.missingbits.main.MissingBitsClient"
+    ]
+  },
+  "mixins": [
+    "missingbits.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
