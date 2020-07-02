@@ -28,7 +28,7 @@ public class MissingBitsLang {
     public static String SERVER_ERROR = "text.missingbits.server_error";
 
     public static String textForKey(String key) {
-        return new TranslatableText(key).asFormattedString();
+        return new TranslatableText(key).asString();
     }
 
     public static TranslatableText forKey(String key) {

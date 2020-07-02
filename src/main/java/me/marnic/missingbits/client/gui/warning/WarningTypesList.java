@@ -25,7 +25,7 @@ public class WarningTypesList extends BasicWidgetList {
         this.comparingInfo = comparingInfo;
         this.infoList = infoList;
 
-        mcVersionChange = addString("MC Version Changes (0)", 150 / 2 - renderer.getStringWidth("MC Version Changes (0)") / 2).setOnClicked(() -> {
+        mcVersionChange = addString("MC Version Changes (0)", 150 / 2 - renderer.getWidth("MC Version Changes (0)") / 2).setOnClicked(() -> {
             clearAll();
             infoList.addString("Minecraft Version Changes: " + (comparingInfo.isMcVersionsEqual() ? 0 : 1), 0).setColor(Formatting.YELLOW.getColorValue());
             if (!comparingInfo.isMcVersionsEqual()) {
@@ -37,7 +37,7 @@ public class WarningTypesList extends BasicWidgetList {
             mcVersionChange.children.add(entry);
         }
 
-        modsUpdated = addString("Mods Updated (0)", 150 / 2 - renderer.getStringWidth("Mods Updated (0)") / 2).setOnClicked(() -> {
+        modsUpdated = addString("Mods Updated (0)", 150 / 2 - renderer.getWidth("Mods Updated (0)") / 2).setOnClicked(() -> {
             clearAll();
             infoList.addString("Updated Mods: " + comparingInfo.getUpdated().size(), 0).setColor(Formatting.YELLOW.getColorValue());
             comparingInfo.getUpdated().forEach((k) -> {
@@ -52,7 +52,7 @@ public class WarningTypesList extends BasicWidgetList {
             modsUpdated.children.add(entry);
         }
 
-        modsRemoved = addString("Mods Removed (0)", 150 / 2 - renderer.getStringWidth("Mods Removed (0)") / 2).setOnClicked(() -> {
+        modsRemoved = addString("Mods Removed (0)", 150 / 2 - renderer.getWidth("Mods Removed (0)") / 2).setOnClicked(() -> {
             clearAll();
             infoList.addString("Removed Mods: " + comparingInfo.getMissingMods().size(), 0).setColor(Formatting.YELLOW.getColorValue());
             comparingInfo.getMissingMods().forEach((k) -> {
@@ -65,7 +65,7 @@ public class WarningTypesList extends BasicWidgetList {
             modsRemoved.children.add(entry);
         }
 
-        regsMissing = addString("Missing Registries (0)", 150 / 2 - renderer.getStringWidth("Missing Registries (0)") / 2).setOnClicked(() -> {
+        regsMissing = addString("Missing Registries (0)", 150 / 2 - renderer.getWidth("Missing Registries (0)") / 2).setOnClicked(() -> {
             clearAll();
             infoList.addString("Missing Registries: " + comparingInfo.getMissingRegs().size(), 0).setColor(Formatting.YELLOW.getColorValue());
             comparingInfo.getMissingRegs().forEach((k, v) -> {
@@ -130,7 +130,7 @@ public class WarningTypesList extends BasicWidgetList {
     }
 
     @Override
-    protected int getScrollbarPosition() {
+    protected int getScrollbarPositionX() {
         return width - 7;
     }
 

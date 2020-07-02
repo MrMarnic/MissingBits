@@ -12,7 +12,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.PacketConsumer;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 public class PacketModsProblemConsumer implements PacketConsumer {
 

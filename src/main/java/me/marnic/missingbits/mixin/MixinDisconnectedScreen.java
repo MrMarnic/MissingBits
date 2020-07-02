@@ -30,7 +30,7 @@ public class MixinDisconnectedScreen {
 
     @Inject(method = "init", at = @At("HEAD"))
     public void init(CallbackInfo info) {
-        if (reason.asFormattedString().equalsIgnoreCase("MissingBitsModsWarning")) {
+        if (reason.asString().equalsIgnoreCase("MissingBitsModsWarning")) {
             MinecraftClient.getInstance().openScreen(new MissingBitsWarningGUI(PacketModsProblemConsumer.COMPARING_INFO, PacketModsProblemConsumer.SERVER_IP));
         }
     }

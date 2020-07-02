@@ -15,13 +15,16 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
+import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelSummary;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,7 +41,7 @@ public class MissingBitsGameLoader {
         MODS = new ArrayList(FabricLoader.getInstance().getAllMods());
     }
 
-    public static void handleWorldLoad(LevelSummary levelSummary, CallbackInfo callbackInfo, WorldListWidget.Entry levelItem) {
+    public static void handleWorldLoad(LevelSummary levelSummary, CallbackInfo callbackInfo, WorldListWidget.Entry levelItem) throws IOException {
         File gameFile = new File(MinecraftClient.getInstance().runDirectory.getAbsolutePath() + "//saves//" + levelSummary.getName());
 
         File logFolder = new File(gameFile.getAbsolutePath() + "//missing_bits_logs");
@@ -64,7 +67,7 @@ public class MissingBitsGameLoader {
                 if (!info.isShouldBeUsed()) {
                     showFirstLoadToast();
                     LoadingInfo info1 = new LoadingInfo();
-                    info1.setMcVersion(levelSummary.getVersion().asFormattedString());
+                    info1.setMcVersion(levelSummary.getVersion().asString());
                     LoadingInfo info2 = new LoadingInfo();
                     info2.setMcVersion(MinecraftClient.getInstance().getGame().getVersion().getName());
                     LoadingInfo.ComparingInfo info3 = info1.compare(info2);
@@ -79,7 +82,9 @@ public class MissingBitsGameLoader {
         }
 
         if (MissingBitsConfig.DATA.alwaysDoBackup) {
-            EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), levelSummary.getName());
+            LevelStorage.Session session = MinecraftClient.getInstance().getLevelStorage().createSession(levelSummary.getName());
+            EditWorldScreen.backupLevel(session);
+            session.close();
         }
     }
 
@@ -95,8 +100,8 @@ public class MissingBitsGameLoader {
         toastManager_1.add(new SystemToast(SystemToast.Type.WORLD_BACKUP, text_3, text_4));
     }
 
-    public static void handleWorldSetup(ServerWorld world) {
-        File gameFile = world.getSaveHandler().getWorldDir();
+    public static void handleWorldSetup(ServerWorld world) throws IOException {
+        File gameFile = world.getServer().getSavePath(WorldSavePath.ROOT).toFile();
 
         File loadingData = new File(gameFile.getAbsolutePath() + "//missing_bits_data");
 
@@ -114,7 +119,9 @@ public class MissingBitsGameLoader {
         }
 
         if (MissingBitsConfig.DATA.alwaysDoBackup) {
-            EditWorldScreen.backupLevel(MinecraftClient.getInstance().getLevelStorage(), gameFile.getName());
+            LevelStorage.Session session = MinecraftClient.getInstance().getLevelStorage().createSession(gameFile.getName());
+            EditWorldScreen.backupLevel(session);
+            session.close();
         }
     }
 

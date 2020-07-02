@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.IOException;
+
 /**
  * Copyright (c) 26.07.2019
  * Developed by MrMarnic
@@ -23,7 +25,11 @@ public abstract class MixinLevelItem extends AlwaysSelectedEntryListWidget.Entry
 
     @Inject(method = "play", at = @At("HEAD"), cancellable = true)
     public void play(CallbackInfo info) {
-        MissingBitsGameLoader.handleWorldLoad(level, info, getThis());
+        try {
+            MissingBitsGameLoader.handleWorldLoad(level, info, getThis());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public WorldListWidget.Entry getThis() {

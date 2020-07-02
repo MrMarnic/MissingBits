@@ -3,6 +3,10 @@ package me.marnic.missingbits.client.gui.widgets;
 import me.marnic.missingbits.client.gui.components.BasicWidgetEntry;
 import me.marnic.missingbits.client.gui.components.BasicWidgetList;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.StringRenderable;
+import net.minecraft.text.Style;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 
@@ -35,11 +39,11 @@ public class WidgetStringEntry extends BasicWidgetEntry {
     }
 
     @Override
-    public void render(int a, int y, int x, int var4, int var5, int var6, int var7, boolean var8, float var9) {
-        renderer.draw(text, x + this.x, this.y + y + list.getHeight() / 2 - renderer.fontHeight / 2, color);
+    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        renderer.draw(matrices, StringRenderable.plain(text),x + this.x, this.y + y + list.getHeight() / 2 - renderer.fontHeight / 2,color);
         if (!children.isEmpty()) {
             for (BasicWidgetEntry element : children) {
-                element.render(a, y, x, var4, var5, var6, var7, var8, var9);
+                element.render(matrices,index,y,x,entryWidth,entryHeight,mouseX,mouseY,hovered,tickDelta);
             }
         }
     }
@@ -63,7 +67,7 @@ public class WidgetStringEntry extends BasicWidgetEntry {
     }
 
     public void center(int width) {
-        x = width / 2 - renderer.getStringWidth(text) / 2;
+        x = width / 2 - renderer.getWidth(text) / 2;
     }
 
     public void topLeft() {

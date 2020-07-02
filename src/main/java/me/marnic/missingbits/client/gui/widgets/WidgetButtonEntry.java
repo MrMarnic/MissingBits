@@ -4,6 +4,7 @@ import me.marnic.missingbits.client.gui.components.BasicWidgetEntry;
 import me.marnic.missingbits.client.gui.components.BasicWidgetList;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Copyright (c) 28.07.2019
@@ -20,9 +21,9 @@ public class WidgetButtonEntry extends BasicWidgetEntry {
     }
 
     @Override
-    public void render(int x, int y, int var3, int var4, int var5, int var6, int var7, boolean var8, float var9) {
+    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         buttonWidget.y = y;
-        buttonWidget.render(var6, var7, var9);
+        buttonWidget.render(matrices, mouseX, mouseY,tickDelta);
     }
 
     @Override

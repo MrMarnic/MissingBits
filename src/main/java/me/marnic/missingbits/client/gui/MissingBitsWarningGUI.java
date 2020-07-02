@@ -5,15 +5,22 @@ import me.marnic.missingbits.client.gui.components.BasicWidgetList;
 import me.marnic.missingbits.client.gui.warning.WarningTypesList;
 import me.marnic.missingbits.client.lang.MissingBitsLang;
 import me.marnic.missingbits.loading.LoadingInfo;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.world.EditWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.world.level.storage.LevelStorage;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -51,16 +58,16 @@ public class MissingBitsWarningGUI extends Screen {
         this.comparingInfo = info;
         this.parentScreen = new MultiplayerScreen(new TitleScreen());
         this.type = Type.MP;
-        this.warningReason = MissingBitsLang.forKey(MissingBitsLang.SERVER_ERROR, "§4" + serverIp).asFormattedString();
+        this.warningReason = MissingBitsLang.forKey(MissingBitsLang.SERVER_ERROR, "§4" + serverIp).asString();
     }
 
     @Override
     protected void init() {
         super.init();
+        warningInfoList = new BasicWidgetList(client, MissingBitsWarningGUI.this.width / 2 - 10, MissingBitsWarningGUI.this.height, 22, MissingBitsWarningGUI.this.height - 65 + 4, 18, textRenderer) {
 
-        warningInfoList = new BasicWidgetList(minecraft, MissingBitsWarningGUI.this.width / 2 - 10, MissingBitsWarningGUI.this.height, 22, MissingBitsWarningGUI.this.height - 65 + 4, 18, font) {
             @Override
-            protected int getScrollbarPosition() {
+            protected int getScrollbarPositionX() {
                 return width * 2 - 7 + 20;
             }
 
@@ -71,18 +78,19 @@ public class MissingBitsWarningGUI extends Screen {
         };
         warningInfoList.setLeftPos(width / 2 + 10);
 
-        warningTypesList = new WarningTypesList(minecraft, MissingBitsWarningGUI.this.width / 2 - 10, MissingBitsWarningGUI.this.height, 22, MissingBitsWarningGUI.this.height - 65 + 4, 10, font, comparingInfo, warningInfoList);
+        warningTypesList = new WarningTypesList(client, MissingBitsWarningGUI.this.width / 2 - 10, MissingBitsWarningGUI.this.height, 22, MissingBitsWarningGUI.this.height - 65 + 4, 10, textRenderer, comparingInfo, warningInfoList);
 
 
         children.add(warningTypesList);
         children.add(warningInfoList);
 
-        addButton(new ButtonWidget(10, this.height - 30, 100, 20, MissingBitsLang.textForKey(MissingBitsLang.GO_BACK), (a) -> {
-            minecraft.openScreen(parentScreen);
+
+        addButton(new ButtonWidget(10, this.height - 30, 100, 20, new TranslatableText(MissingBitsLang.GO_BACK), (a) -> {
+            client.openScreen(parentScreen);
         }));
 
         if (type == Type.SP) {
-            addButton(new ButtonWidget(this.width - 110, this.height - 30, 100, 20, MissingBitsLang.textForKey(MissingBitsLang.CON_LOADING), (a) -> {
+            addButton(new ButtonWidget(this.width - 110, this.height - 30, 100, 20, new TranslatableText(MissingBitsLang.CON_LOADING), (a) -> {
                 try {
                     METHOD.invoke(levelItem);
                 } catch (IllegalAccessException e) {
@@ -94,26 +102,32 @@ public class MissingBitsWarningGUI extends Screen {
         }
 
         if (type == Type.SP) {
-            addButton(new ButtonWidget(this.width / 2 - 140 / 2, this.height - 30, 140, 20, MissingBitsLang.textForKey(MissingBitsLang.CREATE_BACKUP), (a) -> {
-                EditWorldScreen.backupLevel(minecraft.getLevelStorage(), worldFile.getName());
+            addButton(new ButtonWidget(this.width / 2 - 140 / 2, this.height - 30, 140, 20, new TranslatableText(MissingBitsLang.CREATE_BACKUP), (a) -> {
+                try {
+                    LevelStorage.Session session = client.getLevelStorage().createSession(worldFile.getName());
+                    EditWorldScreen.backupLevel(session);
+                    session.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }));
 
-            addButton(new ButtonWidget(this.width / 2 - 100 / 2, this.height - 55, 100, 20, MissingBitsLang.textForKey(MissingBitsLang.SAVE_LOG), (a) -> {
+            addButton(new ButtonWidget(this.width / 2 - 100 / 2, this.height - 55, 100, 20, new TranslatableText(MissingBitsLang.SAVE_LOG), (a) -> {
                 LogUtil.saveLog(comparingInfo, worldFile);
             }));
         }
     }
 
     @Override
-    public void render(int int_1, int int_2, float float_1) {
-        this.renderDirtBackground(0);
-        warningTypesList.render(int_1, int_2, float_1);
-        warningInfoList.render(int_1, int_2, float_1);
-        drawCenteredString(font, MissingBitsLang.textForKey(MissingBitsLang.GUI_NAME), this.width / 2, 10, Formatting.YELLOW.getColorValue());
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
+        warningTypesList.render(matrices, mouseX, mouseY, delta);
+        warningInfoList.render(matrices, mouseX, mouseY, delta);
+        drawCenteredString(matrices,textRenderer, MissingBitsLang.textForKey(MissingBitsLang.GUI_NAME), this.width / 2, 10, Formatting.YELLOW.getColorValue());
         if (type == Type.MP) {
-            drawCenteredString(font, warningReason, this.width / 2, this.height - 50, Formatting.YELLOW.getColorValue());
+            drawCenteredString(matrices,textRenderer, warningReason, this.width / 2, this.height - 50, Formatting.YELLOW.getColorValue());
         }
-        super.render(int_1, int_2, float_1);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override

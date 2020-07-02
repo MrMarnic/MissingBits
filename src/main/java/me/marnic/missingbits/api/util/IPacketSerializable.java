@@ -6,7 +6,7 @@ package me.marnic.missingbits.api.util;
  * GitHub: https://github.com/MrMarnic
  */
 
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 import java.util.ArrayList;
 import java.util.Collection;

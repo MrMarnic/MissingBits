@@ -2,6 +2,7 @@ package me.marnic.missingbits.client.gui.components;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Copyright (c) 28.07.2019
@@ -20,7 +21,7 @@ public class BasicWidgetEntry extends AlwaysSelectedEntryListWidget.Entry<BasicW
     }
 
     @Override
-    public void render(int var1, int var2, int var3, int var4, int var5, int var6, int var7, boolean var8, float var9) {
+    public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 
     }
 
