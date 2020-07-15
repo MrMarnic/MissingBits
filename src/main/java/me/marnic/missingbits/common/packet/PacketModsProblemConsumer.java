@@ -23,10 +23,16 @@ public class PacketModsProblemConsumer implements PacketConsumer {
 
     public static String SERVER_IP;
 
+    public static boolean allowConnectingWhenError;
+
+    public static boolean LOCAL;
+
     @Environment(EnvType.CLIENT)
     @Override
     public void accept(PacketContext context, PacketByteBuf buffer) {
         COMPARING_INFO = new LoadingInfo.ComparingInfo().readFrom(buffer);
+        allowConnectingWhenError = buffer.readBoolean();
         SERVER_IP = MinecraftClient.getInstance().getCurrentServerEntry().address;
+        LOCAL = MinecraftClient.getInstance().getCurrentServerEntry().isLocal();
     }
 }
