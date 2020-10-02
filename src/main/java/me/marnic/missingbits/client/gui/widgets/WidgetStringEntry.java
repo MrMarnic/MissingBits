@@ -4,7 +4,8 @@ import me.marnic.missingbits.client.gui.components.BasicWidgetEntry;
 import me.marnic.missingbits.client.gui.components.BasicWidgetList;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
 import net.minecraft.util.Formatting;
 
@@ -40,7 +41,11 @@ public class WidgetStringEntry extends BasicWidgetEntry {
 
     @Override
     public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        renderer.draw(matrices, StringRenderable.plain(text),x + this.x, this.y + y + list.getHeight() / 2 - renderer.fontHeight / 2,color);
+        renderer.draw(matrices,
+                (OrderedText) StringVisitable.plain(text),
+                x + this.x,
+                this.y + y + list.getHeight() / 2f - renderer.fontHeight / 2f,
+                color);
         if (!children.isEmpty()) {
             for (BasicWidgetEntry element : children) {
                 element.render(matrices,index,y,x,entryWidth,entryHeight,mouseX,mouseY,hovered,tickDelta);
