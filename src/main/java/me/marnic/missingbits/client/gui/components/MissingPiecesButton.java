@@ -16,7 +16,7 @@ public class MissingPiecesButton extends ButtonWidget {
     private boolean hasContent;
 
     public MissingPiecesButton(int int_1, int int_2, int int_3, String string_1, PressAction buttonWidget$PressAction_1) {
-        super(int_1, int_2, int_3, 20, Text.method_30163(string_1), buttonWidget$PressAction_1);
+        super(int_1, int_2, int_3, 20, Text.of(string_1), buttonWidget$PressAction_1);
     }
 
     public void setEntry(WidgetButtonEntry entry) {
@@ -39,14 +39,14 @@ public class MissingPiecesButton extends ButtonWidget {
             open();
             if (hasContent) {
                 String msg = getMessage().getString();
-                setMessage(Text.method_30163(msg.substring(0,msg.length()-1) + "-"));
+                setMessage(Text.of(msg.substring(0,msg.length()-1) + "-"));
             }
         } else {
             clicked = false;
             close();
             if (hasContent) {
                 String msg = getMessage().getString();
-                setMessage(Text.method_30163(msg.substring(0,msg.length()-1) + "-"));
+                setMessage(Text.of(msg.substring(0,msg.length()-1) + "-"));
             }
         }
     }
